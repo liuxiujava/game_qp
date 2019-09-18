@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.PatternLayout" >
+                <pattern>%d{yyyy-MM-dd HH:mm:ss}, %p, %c, %t, %F, %X{serverid}, %L %m%n</pattern>
+            </layout>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>serverid</key>
+            <defaultValue>serverId</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${serverid}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout">
+                        <pattern>%d{yyyy-MM-dd HH:mm:ss}, %m%n</pattern>
+                    </layout>
+                    <charset>UTF-8</charset>
+                </encoder>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>log/${serverid}.error.%d{yyyy-MM-dd}</FileNamePattern>
+                    <maxHistory>30</maxHistory>
+                </rollingPolicy>
+            </appender>
+        </sift>
+    </appender>
+
+    <root level="error">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <logger name="org.apache.mina" level="error" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="org.reflections.Reflections" level="error" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="jsa.actor.db" level="error" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+
+    <appender name="LogFor360" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>serverid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="LogFor360-${serverid}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <!-- <file>log/act/act.log</file> -->
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>log/act/act.log.%d{yyyy-MM-dd}</FileNamePattern>
+                    <maxHistory>15</maxHistory>
+                </rollingPolicy>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout" >
+                        <pattern>%m%n</pattern>
+                    </layout>
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <logger name="x.log.LogFor360" level="info" additivity="false">
+        <appender-ref ref="LogFor360"/>
+    </logger>
+
+    <appender name="LogForCmd" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>serverid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="LogForCmd-${serverid}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <!-- <file>log/cmd/cmd.log</file> -->
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>log/cmd/cmd.log.%d{yyyy-MM-dd}</FileNamePattern>
+                    <maxHistory>2</maxHistory>
+                </rollingPolicy>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout">
+                        <pattern>%m%n</pattern>
+                    </layout>
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <logger name="x.log.LogForCmd" level="info" additivity="false">
+        <appender-ref ref="LogForCmd"/>
+    </logger>
+
+
+    <appender name="LogForChat" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>serverid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="LogForChat-${serverid}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <!-- <file>log/act/act.log</file> -->
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>log/chat/chat.log.%d{yyyy-MM-dd}</FileNamePattern>
+                    <maxHistory>7</maxHistory>
+                </rollingPolicy>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout" >
+                        <pattern>%m%n</pattern>
+                    </layout>
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+    <logger name="x.log.LogForChat" level="info" additivity="false">
+        <appender-ref ref="LogForChat"/>
+    </logger>
+
+    <appender name="LogForClient" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>serverid</key>
+            <defaultValue>unknown</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="LogForClient-${serverid}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <!-- <file>log/act/act.log</file> -->
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>log/client/error.log.%d{yyyy-MM-dd}</FileNamePattern>
+                    <maxHistory>7</maxHistory>
+                </rollingPolicy>
+                <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                    <layout class="ch.qos.logback.classic.PatternLayout" >
+                        <pattern>%m%n</pattern>
+                    </layout>
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+    <logger name="x.log.LogForClient" level="info" additivity="false">
+        <appender-ref ref="LogForClient"/>
+    </logger>
+</configuration>
